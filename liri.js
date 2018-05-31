@@ -10,7 +10,6 @@ var omdb = require('omdb');
 var fs = require('fs');
 
 
-
 //Api keys      
 // var spotifyKeys = new Spotify(keys.spotifynode);
 var client = new Twitter(keys.twitter);
@@ -86,7 +85,7 @@ function findMovie() {
     };
     if (movie == "") {
         movie = 'Mr. Nobody';
-        movies()
+        movies();
     };
     request('http://www.omdbapi.com/?apikey=940c1089&t=' + movie, function (error, response, body) {
         var parsed = JSON.parse(body);
@@ -112,6 +111,17 @@ function findMovie() {
     });
 };
 
+function whatItDo(){
+    fs.readFile('./random.txt', 'utf8', function (err,data) {
+    if (err) {
+        return console.log(err);
+    }
+    musicSearch = data.split(',')[1];
+    });
+    console.log(musicSearch);
+};
+
+function liri(){ 
 if (command === 'my-tweets') {
     tweetFeed();
 };
@@ -123,3 +133,9 @@ if (command === 'spotify-this') {
 if (command === 'movie-this') {
     findMovie();
 };
+if (command === 'do-what-it-says') {
+    whatItDo();
+};
+};
+
+liri();
