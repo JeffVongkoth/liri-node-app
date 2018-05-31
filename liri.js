@@ -7,7 +7,7 @@ var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs');
 // console.log(process.env.SPOTIFY_ID);
-
+// npm i --save twitter node-spotify-api request fs ./keys.js
 //Api keys      
 var spotifyKeys = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
@@ -20,41 +20,30 @@ var nodeArgs = process.argv;
 var command = nodeArgs[2];
 var song = '';
 var movie = '';
+
+    
+for (var i = 2; i < nodeArgs.length; i++) {
+
+    // Build a string with the song.
+    song = song + nodeArgs[i] + " " ;
+}
+console.log(song);
 function findSong() {
-    for (var i = 2; i < nodeArgs.length; i++) {
-
-        // Build a string with the song.
-        song = song + " " + nodeArgs[i];
-      }
-    //   console.log ("i searched" + song)
-var spotify = new Spotify({
-    id: spotifyKeys.credentials.id,
-    secret: spotifyKeys.credentials.secret
-  });
-
-  spotify.then(function(data){
-      console.log(data);
-  });
-
-
-// spotify.search({ type: 'track', query: song }, function(err, data) {
-//     if ( err ) {
-//         console.log('Error occurred: ' + err);
-//         return;
-//     }
- 
-//     // Do something with 'data'
-// });
+spotifyKeys.then({ type: 'track', query:song }, function(err, data) {
+    if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
+    }
+    console.log(data[0]); 
+    console.log(spotifyKeys);
+});
 
 };
 // console.log(spotifyKeys);
 // console.log(spotifyKeys.credentials.id);
 // console.log(spotifyKeys.credentials.secret);
-console.log(song + "ahahahah");
 
-if(command === 'spotify-this'){
-        findSong();
-}
+
 
 
 function tweetFeed() {
@@ -67,9 +56,14 @@ function tweetFeed() {
             console.log(tweets[i].text);
         }
     });
-}
+};
 
 if (command === 'my-tweets'){
     tweetFeed();
-}
+};
+
+if(command === 'spotify-this'){
+    findSong();
+};
+
 
